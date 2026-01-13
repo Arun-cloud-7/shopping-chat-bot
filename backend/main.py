@@ -5,18 +5,12 @@ from chatbot import process_message
 
 app = FastAPI()
 
-# ✅ ADD THIS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # allow all origins (safe for demo)
-    allow_credentials=True,
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-@app.get("/")
-def root():
-    return {"status": "OK"}
 
 class ChatRequest(BaseModel):
     message: str
@@ -25,11 +19,11 @@ class ChatRequest(BaseModel):
 def chat(req: ChatRequest):
     reply = process_message(req.message)
 
-    # ✅ FIX
     if isinstance(reply, dict):
         return reply
+
     return {"reply": reply}
 
-# @app.get("/")
-# def health():
-#     return {"status": "Shopping chatbot backend running"}
+@app.get("/")
+def root():
+    return {"status": "AI Shopping Assistant running"}

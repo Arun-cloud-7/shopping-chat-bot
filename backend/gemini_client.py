@@ -1,19 +1,14 @@
-import os
 import google.generativeai as genai
-from dotenv import load_dotenv
-
-load_dotenv()
+import os
 
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
-# ✅ Non-Flash model
-model = genai.GenerativeModel(
-    model_name="models/gemini-1.5-pro-latest"
-)
+MODEL_NAME = "models/gemini-1.0-pro"  # ✅ STABLE & SUPPORTED
 
-def ask_gemini(prompt: str) -> str:
+def ask_gemini(prompt: str):
     try:
+        model = genai.GenerativeModel(MODEL_NAME)
         response = model.generate_content(prompt)
-        return response.text.strip()
+        return response.text
     except Exception as e:
-        return f"⚠️ Gemini error: {str(e)}"
+        return f"⚠️ AI error: {str(e)}"

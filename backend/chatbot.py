@@ -6,8 +6,6 @@ with open("products.json", "r") as f:
 
 cart = []
 
-# ---------- HELPERS ----------
-
 def list_products():
     return {
         "type": "products",
@@ -28,43 +26,12 @@ def add_to_cart(message):
 def checkout():
     if not cart:
         return "🛒 Your cart is empty."
-
     total = sum(p["price"] for p in cart)
     cart.clear()
     return f"🎉 Order confirmed!\nTotal: ₹{total}"
 
-# ---------- MAIN ROUTER ----------
-
-# def process_message(message: str):
-#     msg = message.lower().strip()
-
-#     # ✅ PRODUCT LIST (ALL VARIANTS)
-#     if any(k in msg for k in ["product", "products", "show", "list"]):
-#         return list_products()
-
-#     # ✅ ADD TO CART
-#     if any(k in msg for k in ["add", "cart", "buy"]):
-#         return add_to_cart(msg)
-
-#     # ✅ CHECKOUT
-#     if any(k in msg for k in ["checkout", "order", "place order"]):
-#         return checkout()
-
-#     # ✅ ONLY NOW call Gemini (optional)
-#     ai_reply = ask_gemini(
-#         f"You are a shopping assistant. Reply briefly to: {message}"
-#     )
-
-#     return ai_reply if ai_reply else (
-#         "🤖 Try asking:\n"
-#         "• Show products\n"
-#         "• Add backpack\n"
-#         "• Checkout"
-#     )
-
-# 2nd main code
 def process_message(message: str):
-    msg = message.lower().strip()
+    msg = message.lower()
 
     if any(k in msg for k in ["product", "products", "show", "list"]):
         return list_products()
@@ -72,17 +39,10 @@ def process_message(message: str):
     if any(k in msg for k in ["add", "cart", "buy"]):
         return add_to_cart(msg)
 
-    if any(k in msg for k in ["checkout", "order", "place order"]):
+    if any(k in msg for k in ["checkout", "order"]):
         return checkout()
 
-    ai_reply = ask_gemini(
-        f"You are a shopping assistant. Reply briefly to: {message}"
+    # ✅ AI fallback only
+    return ask_gemini(
+        f"You are a shopping assistant. Reply briefly.\nUser: {message}"
     )
-
-    return ai_reply or (
-        "🤖 Try asking:\n"
-        "• Show products\n"
-        "• Add backpack\n"
-        "• Checkout"
-    )
-
