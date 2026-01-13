@@ -28,7 +28,9 @@ async function sendMessage() {
     });
 
     const data = await res.json();
+    console.log("BACKEND RESPONSE:", data);
     typing.classList.add("hidden");
+
 
     // ✅ HANDLE PRODUCT LIST
     if (data.type === "products" && Array.isArray(data.items)) {
@@ -44,7 +46,7 @@ async function sendMessage() {
     }
     // ✅ HANDLE NORMAL TEXT
     else {
-      chatBox.innerHTML += `<div class="bot-msg">🤖 ${data.reply}</div>`;
+      chatBox.innerHTML += `<div class="bot-msg">🤖 ${JSON.stringify(data)}</div>`;
     }
 
     chatBox.scrollTop = chatBox.scrollHeight;
