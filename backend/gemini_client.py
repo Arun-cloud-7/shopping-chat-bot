@@ -15,4 +15,4 @@ def ask_gemini(prompt: str) -> str:
         response = model.generate_content(prompt)
         return response.text
     except Exception as e:
-        return f"Gemini error: {str(e)}"
+        return f"Gemini error: {e}"
