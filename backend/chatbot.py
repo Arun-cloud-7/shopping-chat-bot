@@ -35,27 +35,49 @@ def checkout():
 
 # ---------- MAIN ROUTER ----------
 
+# def process_message(message: str):
+#     msg = message.lower().strip()
+
+#     # ✅ PRODUCT LIST (ALL VARIANTS)
+#     if any(k in msg for k in ["product", "products", "show", "list"]):
+#         return list_products()
+
+#     # ✅ ADD TO CART
+#     if any(k in msg for k in ["add", "cart", "buy"]):
+#         return add_to_cart(msg)
+
+#     # ✅ CHECKOUT
+#     if any(k in msg for k in ["checkout", "order", "place order"]):
+#         return checkout()
+
+#     # ✅ ONLY NOW call Gemini (optional)
+#     ai_reply = ask_gemini(
+#         f"You are a shopping assistant. Reply briefly to: {message}"
+#     )
+
+#     return ai_reply if ai_reply else (
+#         "🤖 Try asking:\n"
+#         "• Show products\n"
+#         "• Add backpack\n"
+#         "• Checkout"
+#     )
 def process_message(message: str):
     msg = message.lower().strip()
 
-    # ✅ PRODUCT LIST (ALL VARIANTS)
     if any(k in msg for k in ["product", "products", "show", "list"]):
         return list_products()
 
-    # ✅ ADD TO CART
     if any(k in msg for k in ["add", "cart", "buy"]):
         return add_to_cart(msg)
 
-    # ✅ CHECKOUT
     if any(k in msg for k in ["checkout", "order", "place order"]):
         return checkout()
 
-    # ✅ ONLY NOW call Gemini (optional)
     ai_reply = ask_gemini(
         f"You are a shopping assistant. Reply briefly to: {message}"
     )
 
-    return ai_reply if ai_reply else (
+    return ai_reply or (
         "🤖 Try asking:\n"
         "• Show products\n"
         "• Add backpack\n"

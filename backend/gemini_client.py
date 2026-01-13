@@ -1,15 +1,18 @@
 import os
 import google.generativeai as genai
+from dotenv import load_dotenv
 
-# Configure API key
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+load_dotenv()
 
-# ✅ THIS MODEL WORKS with google-generativeai v0.8.x
-model = genai.GenerativeModel("gemini-pro")
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+
+model = genai.GenerativeModel(
+    model_name="models/gemini-1.5-flash-latest"
+)
 
 def ask_gemini(prompt: str) -> str:
     try:
         response = model.generate_content(prompt)
         return response.text
     except Exception as e:
-        return f"❌ Gemini error: {e}"
+        return f"Gemini error: {str(e)}"
