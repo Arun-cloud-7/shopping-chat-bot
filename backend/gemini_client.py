@@ -3,7 +3,8 @@ import google.generativeai as genai
 
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-model = genai.GenerativeModel("models/gemini-1.5-flash")
+# ✅ Correct model name for google-generativeai SDK
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 def ask_gemini(prompt: str) -> str:
     try:
