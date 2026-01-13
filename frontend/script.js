@@ -13,7 +13,8 @@ async function send() {
   addMessage(text, "user");
   input.value = "";
 
-  const res = await fetch("https://shopping-chat-bot.vercel.app/", {
+  const res = await fetch("https://shopping-chat-bot.onrender.com/chat", {
+
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message: text })
