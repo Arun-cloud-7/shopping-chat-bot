@@ -30,7 +30,23 @@ async function sendMessage() {
     const data = await res.json();
     typing.classList.add("hidden");
 
-    chatBox.innerHTML += `<div class="bot-msg">🤖 ${data.reply}</div>`;
+    // ✅ HANDLE PRODUCT LIST
+    if (data.type === "products" && Array.isArray(data.items)) {
+      data.items.forEach(p => {
+        chatBox.innerHTML += `
+          <div class="bot-msg">
+            🛍️ <b>${p.name}</b><br>
+            💰 ₹${p.price}<br>
+            📦 Stock: ${p.stock}
+          </div>
+        `;
+      });
+    }
+    // ✅ HANDLE NORMAL TEXT
+    else {
+      chatBox.innerHTML += `<div class="bot-msg">🤖 ${data.reply}</div>`;
+    }
+
     chatBox.scrollTop = chatBox.scrollHeight;
 
   } catch (err) {
@@ -38,3 +54,4 @@ async function sendMessage() {
     chatBox.innerHTML += `<div class="bot-msg">⚠️ Server not responding</div>`;
   }
 }
+
