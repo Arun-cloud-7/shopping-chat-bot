@@ -1,7 +1,8 @@
 import os
 import time
 from dotenv import load_dotenv
-from google import genai
+import google.generativeai as genai
+
 
 load_dotenv(dotenv_path=".env", override=True)
 
