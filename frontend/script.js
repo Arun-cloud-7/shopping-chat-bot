@@ -17,7 +17,7 @@ async function send() {
 
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message: text })
+    body: JSON.stringify({ message: userMessage })
   });
 
   const data = await res.json();
