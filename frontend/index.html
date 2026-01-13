@@ -7,22 +7,25 @@
 </head>
 <body>
 
-  <div class="chat-container">
-    <div class="header">🛍️ AI Shopping Assistant</div>
+<div class="chat-container">
+  <div class="chat-header">
+    🤖 AI Shopping Assistant
+  </div>
 
-    <div id="chat-box" class="chat-box"></div>
-
-    <div class="input-area">
-      <input
-        type="text"
-        id="user-input"
-        placeholder="Ask me about products..."
-      />
-      <button id="send-btn">➤</button>
+  <div id="chat-box" class="chat-box">
+    <div class="bot-msg">
+      🤖 I'm here to help! You can ask me to show products, add items to cart, or checkout.
     </div>
   </div>
 
-  <!-- SCRIPT MUST BE AT BOTTOM -->
-  <script src="script.js"></script>
+  <div id="typing" class="typing hidden">🤖 Bot is typing...</div>
+
+  <div class="chat-input">
+    <input id="user-input" type="text" placeholder="Ask me about products..." />
+    <button id="send-btn">➤</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>

@@ -1,49 +1,40 @@
-console.log("script.js loaded ✅");
-
 const chatBox = document.getElementById("chat-box");
 const input = document.getElementById("user-input");
 const sendBtn = document.getElementById("send-btn");
+const typing = document.getElementById("typing");
 
-const API_URL = "https://shopping-chat-bot.onrender.com/chat"; // your backend
+// 🔴 CHANGE THIS
+const BACKEND_URL = "https://shopping-chat-bot.onrender.com/chat";
 
-if (!chatBox || !input || !sendBtn) {
-  console.error("❌ One or more elements not found");
-}
+sendBtn.onclick = sendMessage;
+input.addEventListener("keypress", e => {
+  if (e.key === "Enter") sendMessage();
+});
 
-function addMessage(text, sender) {
-  const msg = document.createElement("div");
-  msg.className = sender;
-  msg.innerText = text;
-  chatBox.appendChild(msg);
-  chatBox.scrollTop = chatBox.scrollHeight;
-}
-
-function sendMessage() {
-  console.log("Send button clicked 🚀");
-
+async function sendMessage() {
   const message = input.value.trim();
   if (!message) return;
 
-  addMessage(message, "user");
+  chatBox.innerHTML += `<div class="user-msg">${message}</div>`;
   input.value = "";
+  typing.classList.remove("hidden");
+  chatBox.scrollTop = chatBox.scrollHeight;
 
-  fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message }),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      addMessage(data.reply || "⚠️ No reply", "bot");
-    })
-    .catch((err) => {
-      console.error(err);
-      addMessage("❌ Backend error", "bot");
+  try {
+    const res = await fetch(BACKEND_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message })
     });
+
+    const data = await res.json();
+    typing.classList.add("hidden");
+
+    chatBox.innerHTML += `<div class="bot-msg">🤖 ${data.reply}</div>`;
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+  } catch (err) {
+    typing.classList.add("hidden");
+    chatBox.innerHTML += `<div class="bot-msg">⚠️ Server not responding</div>`;
+  }
 }
-
-sendBtn.addEventListener("click", sendMessage);
-
-input.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") sendMessage();
-});
