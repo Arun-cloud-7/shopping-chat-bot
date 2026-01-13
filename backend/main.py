@@ -21,3 +21,6 @@ class ChatRequest(BaseModel):
 def chat(req: ChatRequest):
     reply = process_message(req.message)
     return {"reply": reply}
+@app.get("/")
+def health():
+    return {"status": "Shopping chatbot backend running"}
